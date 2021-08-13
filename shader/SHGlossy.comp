@@ -1,0 +1,304 @@
+#version 430 core
+layout(local_size_x = 128, local_size_y = 1,local_size_z = 1) in;
+
+
+#define M_PI                3.14159265358979323846f
+#define M_PI_4              0.785398163397448309616f
+#define M_1_4PI             0.079577471545947667884f
+
+layout(rgba32f, binding = 0) uniform image1D input_gLegendre2345;
+layout(rgba32f, binding = 1) uniform image1D input_gLegendre6789;
+layout(rgba32f, binding = 2) uniform image2D gZhGrad;
+layout(std430, binding = 3 ) buffer lightPosBuffers
+{
+    float lightPos[];
+};
+layout(std430, binding = 4 ) buffer lightEmissiveBuffers
+{
+    float lightEmissive[];
+};
+//shared vec4 mat_shared[16][16];
+uniform vec3 gridMin;
+uniform uvec3 reso;
+uniform vec3 widthxyz;
+uniform int lightNum;
+
+const uint lmax = 5;
+const uint numZH = lmax * (2 * lmax - 1);
+ vec3 zhCenters[2*lmax-1] =
+{
+    vec3(0.866025, -0.500001, -0.000004),
+    vec3(-0.759553, 0.438522, -0.480394),
+    vec3(-0.000002, 0.638694, 0.769461),
+    vec3(-0.000004, -1.000000, -0.000004),
+    vec3(-0.000007, 0.000003, -1.000000),
+    vec3(-0.000002, -0.638694, 0.769461),
+    vec3(-0.974097, 0.000007, -0.226131),
+    vec3(-0.000003, 0.907079, -0.420960),
+    vec3(-0.960778, 0.000007, -0.277320),
+//	  vec3(-0.000003, -0.907079, -0.420960),
+//	  vec3(-0.451627, -0.451622, 0.769461),
+//    vec3(-0.000003, -0.806136, -0.591730),
+//    vec3(0.767864, 0.000000, 0.640613),
+//    vec3(-0.000003, 0.806136, -0.591730),
+//    vec3(-0.553127, 0.319344, 0.769461),
+//    vec3(0.707105, 0.707108, -0.000004),
+//    vec3(0.925820, 0.000000, 0.377964)
+//
+};
+void zhCoeffDeriv(const vec3 wCenter, const float len[3], const vec3 w[3], const vec3 lambda[3], const vec3 norm[3], out float res[4*lmax]);
+uvec3 getVoxel(uint voxelIndex, uvec3 gridReso)
+{
+    uvec3 voxel;
+    voxel.z = voxelIndex / (gridReso.x * gridReso.y);
+    voxelIndex -= voxel.z * (gridReso.x * gridReso.y);
+    voxel.y = voxelIndex / gridReso.x;
+    voxel.x = voxelIndex - voxel.y * gridReso.x;
+    return voxel;
+}
+void main(void)
+{
+
+	ivec2 pos = ivec2(gl_GlobalInvocationID.xy);
+	//mat_shared[pos.x][pos.y] = imageLoad(input_image, pos);
+	if (pos.y >= 2*lmax-1) return;
+
+	
+	uvec3 voxel;
+	voxel=getVoxel(gl_GlobalInvocationID.x,reso);
+	vec3 resof = reso;
+	vec3 gridstep = widthxyz/resof;
+	vec3 lightP[3], w[3], lambda[3], norm[3];
+	float len[3];
+	float zh[4*lmax];
+	
+	
+	vec3 gridP = gridMin + voxel*gridstep;
+    vec3 shadeP = gridP;
+
+	float zhRes[3][4*lmax];
+	for (uint i = 0; i < 4*lmax; i++)
+    {
+        zhRes[0][i] = 0;
+        zhRes[1][i] = 0;
+        zhRes[2][i] = 0;
+    }
+
+	for(uint j=0;j<lightNum;j++)
+	{
+        lightP[0]=vec3(lightPos[j*3*3],lightPos[j*3*3+1],lightPos[j*3*3+2]);
+	    lightP[1]=vec3(lightPos[j*3*3+3],lightPos[j*3*3+4],lightPos[j*3*3+5]);
+	    lightP[2]=vec3(lightPos[j*3*3+6],lightPos[j*3*3+7],lightPos[j*3*3+8]);
+		
+		vec3 crossResult=cross((lightP[0]-lightP[1]),(lightP[1]-lightP[2]));
+		if(length(crossResult)>5*1e-3)
+		{
+		    vec3 faceN= normalize(crossResult);
+		
+            vec3 Le = vec3(lightEmissive[j*3],lightEmissive[j*3+1],lightEmissive[j*3+2]);
+		
+//		lightP[0]=vec3(0,5,0);
+//	    lightP[1]=vec3(0,5,5);
+//	    lightP[2]=vec3(5,5,0);
+//	    vec3 faceN=vec3(0,1,0);
+//      vec3 Le=vec3(0.5,0.2,0.2);
+            float projDist = dot(faceN, lightP[0] - gridP);
+            if (abs(projDist) < 1e-2)
+                shadeP = gridP - faceN * 5e-2;
+            else
+                shadeP = gridP;
+			if (dot(faceN, lightP[0] - shadeP) < -1e-2)
+            {
+                vec3 tmp = lightP[2];
+                lightP[2] = lightP[0];
+                lightP[0] = tmp;
+            }
+		
+	        for(uint i = 0; i < 3; i++)
+			{
+		        vec3 d = lightP[i] -shadeP;
+		        len[i] = length(d);
+		        w[i] = d / len[i];
+	        }
+	        for (uint i = 0; i < 3; i++){
+		        norm[i] = normalize(cross(w[i], w[(i + 1) % 3]));
+		        lambda[i] = normalize(cross(norm[i], w[i]));
+	        }
+	
+	        zhCoeffDeriv(zhCenters[pos.y], len, w, lambda, norm,  zh);
+    
+	        for(uint c = 0; c < 3; c++)
+		        for(uint i = 0; i < 4*lmax; i++)
+			        zhRes[c][i] += Le[c] * zh[i];
+		    }
+		
+	    }
+
+	
+
+	for (uint c = 0; c < 3; c++)
+    {
+		for (uint i = 0; i < lmax; i++)
+        {
+			uint idx = c * numZH + pos.y * lmax + i;
+			//vec4 temp = imageLoad(gZhGrad, ivec2(pos.x, idx));
+
+			vec4 temp=vec4(0.0);
+			for (uint u = 0; u < 4; u++)
+			{
+				temp[u] += zhRes[c][u * lmax + i];
+			}
+			
+			imageStore(gZhGrad, ivec2(pos.x, idx), temp);
+			
+         }
+     }
+	 
+	 
+}
+
+void Legendre(float _x, out float res[10])
+{
+	float x = abs(_x);
+	res[0] = 1;
+	res[1] = x;
+
+	vec4 tmp1 = imageLoad(input_gLegendre2345, int(x*10000));
+	vec4 tmp2 = imageLoad(input_gLegendre6789, int(x*10000));
+
+	for (uint i = 0; i < 4; i++) res[2 + i] = tmp1[i];
+    for (uint i = 0; i < 4; i++) res[6 + i] = tmp2[i];
+
+    if (_x < 0)
+    {
+        for (uint i = 0; i <= 4; i++)
+            res[2 * i + 1] = -res[2 * i + 1];
+    }
+}
+
+float calcSolidAngle(const vec3 w[3])
+{
+    float res = 0.f;
+    for (uint i = 0; i < 3; i++)
+    {
+        vec3 n0 = normalize(cross(w[i], w[(i + 2) % 3]));
+        vec3 n1 = normalize(cross(w[i], w[(i + 1) % 3]));
+        res += acos(dot(n0, n1));
+    }
+    res -= M_PI;
+    return res;
+}
+void edgeIntegral(float a, float b, float Ti, out float B[lmax], out float C[lmax], out float E[lmax])
+{
+	float z1 = a * cos(Ti) + b * sin(Ti);
+    float zp1 = a * sin(Ti) - b * cos(Ti);
+    
+    float z2 = a;
+    float zp2 = -b;
+
+    float tp = a * a + b * b - 1;
+
+    float Pz1[10], Pz2[10];
+    Legendre(z1, Pz1);
+    Legendre(z2, Pz2);
+
+    B[0] = Ti;
+    B[1] = zp1 - zp2;
+
+    float D_prev = 0;
+    float D_now = Ti;
+
+    C[0] = B[1];
+    float Ctmp = zp1 * Pz1[1] - zp2 * Pz2[1];
+    C[1] = 0.5 * (Ctmp + tp * D_now + B[0]);
+
+    for (uint i = 2; i < lmax; i++)
+    {
+        B[i] = ((2 * i - 1) * C[i - 1] - (i - 1) * B[i - 2]) / i;
+
+        float Dtmp = D_prev;
+        D_prev = D_now;
+        D_now = (2 * i - 1) * B[i - 1] + Dtmp;
+
+        Ctmp = zp1 * Pz1[i] - zp2 * Pz2[i];
+        C[i] = (Ctmp + tp * D_now + i * B[i - 1]) / (i + 1);
+    }
+
+    E[0] = Pz1[1] - Pz2[1];
+    for (uint i = 1; i < lmax; i++)
+        E[i] = (Pz1[i + 1] - Pz1[i - 1] - Pz2[i + 1] + Pz2[i - 1]) / (2 * i + 1);
+}
+
+void zhCoeffDeriv(const vec3 wCenter, const float len[3], const vec3 w[3],
+    const vec3 lambda[3], const vec3 norm[3], out float res[4*lmax])
+{
+    float Bsum[4][lmax], B[lmax], C[lmax], E[lmax];
+
+    for (uint u = 0; u < 4; u++)
+        for (uint j = 0; j < lmax; j++)
+            Bsum[u][j] = 0.f;
+
+    for (uint i = 0; i < 3; i++)
+    {
+        float a = dot(wCenter, w[i]);
+        float b = dot(wCenter, lambda[i]);
+        float c = dot(wCenter, norm[i]);
+        
+        float Ti = acos(dot(w[i], w[(i + 1) % 3]));
+
+        if (abs(Ti) > 0)
+        {
+            edgeIntegral(a, b, Ti, B, C, E);
+
+            // zh coefficients
+            for (uint j = 0; j < lmax; j++)
+                Bsum[3][j] += B[j] * c;
+
+            float scale = sqrt(max(a * a + b * b, 0));
+            float phase = atan(a, b);
+            
+            // zh gradients
+            if (scale > 0)
+            {
+                float cosPhase = b / scale, sinPhase = a / scale;
+                float cosPlus = cos(Ti + phase), sinPlus = sin(Ti + phase);
+
+                for (uint u = 0; u < 3; u++)
+                {
+                    float vz = norm[i][u];
+                    float tp = vz / (scale * sin(Ti));
+                    float t1 = tp / len[(i + 1) % 3];
+                    float t2 = tp / len[i];
+            
+                    for (uint j = 0; j < lmax; j++)
+                    {
+                        float res = t1 * (cosPhase * C[j] - sinPhase * E[j]) - t2 * (cosPlus * C[j] - sinPlus * E[j]);
+                        if (res < 1e10)
+                            Bsum[u][j] += res;
+                    }
+                }
+            }
+        }
+    }
+
+    float Kl[lmax];
+    for (uint j = 0; j < lmax; j++)
+        Kl[j] = sqrt((2 * j + 1) * M_1_4PI);
+
+    for (uint u = 0; u < 3; u++)
+        for (uint j = 0; j < lmax; j++)
+            res[u * lmax + j] = Bsum[u][j] * Kl[j];
+    
+    uint offset = lmax * 3;
+    res[offset] = calcSolidAngle(w);
+    res[offset + 1] = 0.5f * Bsum[3][0];
+    res[offset + 2] = 0.5f * Bsum[3][1];
+    res[offset + 3] = dot(vec2(0.416667, 0.166667), vec2(Bsum[3][2], res[offset + 1]));
+    res[offset + 4] = dot(vec2(0.35, 0.3), vec2(Bsum[3][3], res[offset + 2]));
+
+    for (uint j = 0; j < lmax; j++)
+        res[offset + j] *= Kl[j];
+}
+
+
+
