@@ -1,0 +1,113 @@
+#version 430 core
+layout(local_size_x = 64, local_size_y = 3,local_size_z = 1) in;
+layout(rgba32f, binding = 0) uniform image2D gShGrad;
+//layout (rgba32f, binding = 1) uniform image2D position_buffer;//前三个向量有数据，每个像素存一个顶点位置，每行有30000个顶点
+//layout (rgba32f, binding = 2) uniform image2D gVertexColors;//前三个向量有数据，每个像素存一个顶点颜色，每行30000个顶点
+//layout (rgba32f, binding = 3) uniform image2D gTcoeffs;//前三个向量都有数据，27个像素组成一个顶点sh数据，每行27*1000个像素，每行1000个顶点数据
+layout(std430, binding = 4 )  buffer bufferPosition
+{
+    float Pos[];
+};
+layout(std430, binding = 5 ) writeonly buffer bufferVertexColors
+{
+    float Color[];
+};
+layout(std430, binding = 6 ) buffer bufferTcoeffs
+{
+    float Tcoeff[];
+};
+
+uniform int numVertex;
+uniform vec3 gridMin;
+uniform vec3 gridStep;
+uniform uvec3 gridReso;
+
+float hermite(float x, float lval, float lder, float xR, float rval, float rder);
+float lerp(float u, float lval, float rval);
+//shared vec3 vertexcolorlocal[64];
+
+void main()
+{
+	ivec2 pos = ivec2(gl_GlobalInvocationID.xy);
+	if (pos.x >= numVertex)
+		return;
+//	if(pos.y==2)
+//	{
+//	    Color[pos.x*3+pos.y]=1.0;
+//	    return;
+//	}
+
+	uint lmax = 9;
+	uint numSH = lmax * lmax;
+
+	uint vIdx = pos.x;
+	
+	uint tIdx = vIdx * numSH;
+	uint c = pos.y;
+	
+	vec3 shadeP;
+	shadeP=vec3(Pos[vIdx*3],Pos[vIdx*3+1],Pos[vIdx*3+2]);
+	/* function pos.x to shadeP */
+
+	vec3 voxel = (shadeP - gridMin) / gridStep;
+	uvec3 voxel_i = uvec3(floor(voxel));
+	vec3 upos = voxel - voxel_i;
+
+	float val = 0.f;
+
+    float value[2][2], gradY[2][2], gradZ[2][2];
+    float v1[2], gradZ1[2];
+
+	for (uint i = 0; i < 81; i++)
+	{
+		uint idxOffset = (voxel_i.z * gridReso.y + voxel_i.y) * gridReso.x + voxel_i.x;
+
+		// along x-axis
+        for (uint dy = 0; dy < 2; dy++)
+        {
+            for (uint dz = 0; dz < 2; dz++)
+            {
+				uint idx = idxOffset + dy * gridReso.x + dz * gridReso.x * gridReso.y;
+                vec4 lv = imageLoad(gShGrad, ivec2(idx, pos.y * 81 + i));	
+                vec4 rv = imageLoad(gShGrad, ivec2(idx + 1, pos.y * 81 + i));	//下一个点的同阶同色SH
+
+                value[dy][dz] = hermite(upos.x * gridStep.x, lv.w, lv.x, gridStep.x, rv.w, rv.x);
+                gradY[dy][dz] = lerp(upos.x, lv.y, rv.y);
+                gradZ[dy][dz] = lerp(upos.x, lv.z, rv.z);
+            }
+        }
+
+		// along y-axis
+        for (uint dz = 0; dz < 2; dz++)
+        {
+		
+            v1[dz] = hermite(upos.y * gridStep.y, value[0][dz], gradY[0][dz], gridStep.y, value[1][dz], gradY[1][dz]);
+            gradZ1[dz] = lerp(upos.y, gradZ[0][dz], gradZ[1][dz]);
+        }
+
+        // along z-axis
+        float Lcoeff = hermite(upos.z * gridStep.z, v1[0], gradZ1[0], gridStep.z, v1[1], gradZ1[1]);
+
+		//val += Lcoeff * Tcoeff[tIdx+i];
+		val += Lcoeff * Tcoeff[tIdx+i];
+		
+	}
+	Color[vIdx*3+c]=val;
+    //Color[0]=10.0;
+}
+
+float lerp(float u, float lval, float rval)
+{
+    return lval * (1 - u) + rval * u;
+}
+
+// assume xL = 0
+float hermite(float x, float lval, float lder, float xR, float rval, float rder)
+{
+    float dx = xR;
+    float tp = (rval - lval) / dx;
+    float c = (tp - lder) / dx;
+    float d = (rder + lder - 2 * tp) / (dx * dx);
+    return ((d * (x - xR) + c) * x + lder) * x + lval;
+    //return lval + lder * (x - xL) + c * (x - xL) * (x - xL) + d * (x - xL) * (x - xL) * (x - xR);
+}

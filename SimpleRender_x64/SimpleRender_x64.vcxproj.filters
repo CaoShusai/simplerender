@@ -1,0 +1,322 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>qrc;rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+    </Filter>
+    <Filter Include="Translation Files">
+      <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
+      <Extensions>ts</Extensions>
+    </Filter>
+    <Filter Include="shader">
+      <UniqueIdentifier>{8100c853-6f4d-41cb-997f-2b63dafa565e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Factory">
+      <UniqueIdentifier>{003d7495-1425-4b4d-88fd-5e7de692162c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Factory">
+      <UniqueIdentifier>{9dcd125b-e3f2-4648-a565-d07f70eb3124}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="SimpleRender_x64.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+    <QtUic Include="SimpleRender_x64.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtMoc Include="SimpleRender_x64.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClCompile Include="SimpleRender_x64.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <QtRcc Include="qdarkstyle\style.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="glWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="light.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MyRender.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stb_image.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="timeCtrl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Prt_Zh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PolygonalLight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelVetexSplit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RayTracing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PointLight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="planeRect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneRenderStatic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraCenterMode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraFreeMode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectFactoryBase.cpp">
+      <Filter>Source Files\Factory</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="light.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MyRender.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Prt_Zh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="timeCtrl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PolygonalLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelVetexSplit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="x64\Debug\uic\ui_SimpleRender_x64.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RayTracing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="planeRect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneRenderStatic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraCenterMode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraFreeMode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectFactoryBase.h">
+      <Filter>Header Files\Factory</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shader\Debug.Frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\Debug.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\Fragment.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\Hermite.comp">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\PbrFragment.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\PbrVertex.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\prtFragment.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\prtVertex.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\SH.comp">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\simpleDepthShader.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\simpleDepthShader.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\Vertex.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\zhToSh.comp">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\emit.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\emit.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\HermiteGlossy.comp">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\SHGlossy.comp">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\zhToShGlossy.comp">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\RayTracing.comp">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\HermiteSecondGlossy.comp">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\Tcoeff.comp">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shadowCube.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shadowCube.geom">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shadowCube.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\finalPbrPcss.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\finalPbrPcss.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\skyBox.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\skyBox.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\Gbuffer.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\Gbuffer.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\SSAO.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\SSAO.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\computeSSAO.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\computeSSAO.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\SimpleBlur.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\SimpleBlur.vert">
+      <Filter>shader</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="glWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="ComponentWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="ComponentWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+  </ItemGroup>
+</Project>

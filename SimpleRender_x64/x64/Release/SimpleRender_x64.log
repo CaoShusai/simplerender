@@ -1,0 +1,41 @@
+﻿  Reading Qt configuration (F:/QT/5.14.2/msvc2017_64/bin/qmake)
+  uic ComponentWidget.ui
+  uic SimpleRender_x64.ui
+  rcc qdarkstyle\style.qrc
+  rcc SimpleRender_x64.qrc
+  moc SimpleRender_x64.h
+  moc ComponentWidget.h
+  moc glWidget.h
+   RCC: Warning: No resources in 'F:\summer2021\simplerenderx64\SimpleRender_x64\SimpleRender_x64\SimpleRender_x64.qrc'.
+  Camera.cpp
+  CameraCenterMode.cpp
+  CameraFreeMode.cpp
+  ComponentWidget.cpp
+  Interface.cpp
+  ModelVetexSplit.cpp
+  ObjectBase.cpp
+  ObjectFactoryBase.cpp
+  planeRect.cpp
+  PointLight.cpp
+  PolygonalLight.cpp
+  Prt_Zh.cpp
+  RayTracing.cpp
+  SceneBase.cpp
+  SceneRenderStatic.cpp
+  SkyBox.cpp
+  stb_image.cpp
+  timeCtrl.cpp
+  glWidget.cpp
+  light.cpp
+  mesh.cpp
+  model.cpp
+  MyRender.cpp
+  SimpleRender_x64.cpp
+  main.cpp
+  qrc_style.cpp
+  qrc_SimpleRender_x64.cpp
+  moc_SimpleRender_x64.cpp
+  moc_ComponentWidget.cpp
+  moc_glWidget.cpp
+LIBCMT.lib(initializers.obj) : warning LNK4098: 默认库“msvcrt.lib”与其他库的使用冲突；请使用 /NODEFAULTLIB:library
+  SimpleRender_x64.vcxproj -> F:\summer2021\simplerenderx64\SimpleRender_x64\x64\Release\SimpleRender_x64.exe

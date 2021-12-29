@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{D0575E58-157B-49F1-8F20-760F38ED8AEC}</ProjectGuid>
+    <Keyword>QtVS_v304</Keyword>
+    <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">10.0.17763.0</WindowsTargetPlatformVersion>
+    <QtMsBuild Condition="'$(QtMsBuild)'=='' OR !Exists('$(QtMsBuild)\qt.targets')">$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt_defaults.props')">
+    <Import Project="$(QtMsBuild)\qt_defaults.props" />
+  </ImportGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
+    <QtInstall>5.14.2_msvc2017_64</QtInstall>
+    <QtModules>core;opengl;gui;widgets;openglextensions</QtModules>
+    <QtBuildConfig>debug</QtBuildConfig>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
+    <QtInstall>5.14.2_msvc2017_64</QtInstall>
+    <QtModules>core;gui;widgets</QtModules>
+    <QtBuildConfig>release</QtBuildConfig>
+  </PropertyGroup>
+  <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
+    <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
+  </Target>
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="Shared" />
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(QtMsBuild)\Qt.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(QtMsBuild)\Qt.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <LibraryPath>F:\summer2021\simplerenderx64\SimpleRender_x64\SimpleRender_x64\include;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <LibraryPath>F:\summer2021\simplerenderx64\SimpleRender_x64\SimpleRender_x64\include;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Link>
+      <AdditionalLibraryDirectories>F:\summer2021\simplerenderx64\SimpleRender_x64\SimpleRender_x64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <ClCompile>
+      <AdditionalIncludeDirectories>F:\summer2021\simplerenderx64\SimpleRender_x64\SimpleRender_x64\include;.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Link>
+      <AdditionalLibraryDirectories>F:\summer2021\simplerenderx64\SimpleRender_x64\SimpleRender_x64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <ClCompile>
+      <AdditionalIncludeDirectories>F:\summer2021\simplerenderx64\SimpleRender_x64\SimpleRender_x64\include;.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
+    <ClCompile>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="Configuration">
+    <ClCompile>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DebugInformationFormat>None</DebugInformationFormat>
+      <Optimization>MaxSpeed</Optimization>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CameraCenterMode.cpp" />
+    <ClCompile Include="CameraFreeMode.cpp" />
+    <ClCompile Include="ComponentWidget.cpp" />
+    <ClCompile Include="Interface.cpp" />
+    <ClCompile Include="ModelVetexSplit.cpp" />
+    <ClCompile Include="ObjectBase.cpp" />
+    <ClCompile Include="ObjectFactoryBase.cpp" />
+    <ClCompile Include="planeRect.cpp" />
+    <ClCompile Include="PointLight.cpp" />
+    <ClCompile Include="PolygonalLight.cpp" />
+    <ClCompile Include="Prt_Zh.cpp" />
+    <ClCompile Include="RayTracing.cpp" />
+    <ClCompile Include="SceneBase.cpp" />
+    <ClCompile Include="SceneRenderStatic.cpp" />
+    <ClCompile Include="SkyBox.cpp" />
+    <ClCompile Include="stb_image.cpp" />
+    <ClCompile Include="timeCtrl.cpp" />
+    <QtRcc Include="qdarkstyle\style.qrc" />
+    <QtRcc Include="SimpleRender_x64.qrc" />
+    <QtUic Include="ComponentWidget.ui" />
+    <QtUic Include="SimpleRender_x64.ui" />
+    <QtMoc Include="SimpleRender_x64.h" />
+    <ClCompile Include="glWidget.cpp" />
+    <ClCompile Include="light.cpp" />
+    <ClCompile Include="mesh.cpp" />
+    <ClCompile Include="model.cpp" />
+    <ClCompile Include="MyRender.cpp" />
+    <ClCompile Include="SimpleRender_x64.cpp" />
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="ComponentWidget.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="CameraCenterMode.h" />
+    <ClInclude Include="CameraFreeMode.h" />
+    <ClInclude Include="Interface.h" />
+    <ClInclude Include="light.h" />
+    <ClInclude Include="mesh.h" />
+    <ClInclude Include="model.h" />
+    <ClInclude Include="ModelVetexSplit.h" />
+    <ClInclude Include="MyRender.h" />
+    <ClInclude Include="ObjectBase.h" />
+    <ClInclude Include="ObjectFactoryBase.h" />
+    <ClInclude Include="planeRect.h" />
+    <ClInclude Include="PointLight.h" />
+    <ClInclude Include="PolygonalLight.h" />
+    <ClInclude Include="Prt_Zh.h" />
+    <ClInclude Include="RayTracing.h" />
+    <ClInclude Include="SceneBase.h" />
+    <ClInclude Include="SceneRenderStatic.h" />
+    <ClInclude Include="shader.h" />
+    <ClInclude Include="SkyBox.h" />
+    <ClInclude Include="stb_image.h" />
+    <ClInclude Include="timeCtrl.h" />
+    <ClInclude Include="x64\Debug\uic\ui_SimpleRender_x64.h" />
+    <QtMoc Include="glWidget.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shader\computeSSAO.frag" />
+    <None Include="shader\computeSSAO.vert" />
+    <None Include="shader\Debug.Frag" />
+    <None Include="shader\Debug.vert" />
+    <None Include="shader\emit.frag" />
+    <None Include="shader\emit.vert" />
+    <None Include="shader\finalPbrPcss.frag" />
+    <None Include="shader\finalPbrPcss.vert" />
+    <None Include="shader\Fragment.frag" />
+    <None Include="shader\Hermite.comp" />
+    <None Include="shader\HermiteGlossy.comp" />
+    <None Include="shader\HermiteSecondGlossy.comp" />
+    <None Include="shader\PbrFragment.frag" />
+    <None Include="shader\PbrVertex.vert" />
+    <None Include="shader\prtFragment.frag" />
+    <None Include="shader\prtVertex.vert" />
+    <None Include="shader\RayTracing.comp" />
+    <None Include="shader\SH.comp" />
+    <None Include="shader\shadowCube.frag" />
+    <None Include="shader\shadowCube.geom" />
+    <None Include="shader\shadowCube.vert" />
+    <None Include="shader\SHGlossy.comp" />
+    <None Include="shader\SimpleBlur.frag" />
+    <None Include="shader\SimpleBlur.vert" />
+    <None Include="shader\simpleDepthShader.frag" />
+    <None Include="shader\simpleDepthShader.vert" />
+    <None Include="shader\skyBox.frag" />
+    <None Include="shader\skyBox.vert" />
+    <None Include="shader\Gbuffer.frag" />
+    <None Include="shader\Gbuffer.vert" />
+    <None Include="shader\SSAO.frag" />
+    <None Include="shader\SSAO.vert" />
+    <None Include="shader\Tcoeff.comp" />
+    <None Include="shader\Vertex.vert" />
+    <None Include="shader\zhToSh.comp" />
+    <None Include="shader\zhToShGlossy.comp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
+    <Import Project="$(QtMsBuild)\qt.targets" />
+  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

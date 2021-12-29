@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SimpleRender_x64Class</class>
+ <widget class="QMainWindow" name="SimpleRender_x64Class">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1584</width>
+    <height>1059</height>
+   </rect>
+  </property>
+  <property name="focusPolicy">
+   <enum>Qt::ClickFocus</enum>
+  </property>
+  <property name="windowTitle">
+   <string>SimpleRender_x64</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <widget class="glWidget" name="openGLWidget">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>20</y>
+      <width>1440</width>
+      <height>960</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="listWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>81</width>
+      <height>961</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>30</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>FPS:111</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1584</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionOpen"/>
+    <addaction name="actionSave"/>
+    <addaction name="actionImport"/>
+   </widget>
+   <widget class="QMenu" name="menuLight">
+    <property name="title">
+     <string>Light</string>
+    </property>
+    <addaction name="actionImportPolLight"/>
+    <addaction name="actionCreatePotLight"/>
+   </widget>
+   <widget class="QMenu" name="menuMode">
+    <property name="title">
+     <string>Mode</string>
+    </property>
+    <addaction name="actionPCSS"/>
+    <addaction name="actionPRT_ZH"/>
+   </widget>
+   <widget class="QMenu" name="menuCamera">
+    <property name="title">
+     <string>Camera</string>
+    </property>
+    <addaction name="actionFreeMode"/>
+    <addaction name="actionCenterMode"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuLight"/>
+   <addaction name="menuMode"/>
+   <addaction name="menuCamera"/>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionOpen">
+   <property name="text">
+    <string>Open</string>
+   </property>
+  </action>
+  <action name="actionImportLight">
+   <property name="text">
+    <string>ImportLight</string>
+   </property>
+  </action>
+  <action name="actionImportPolLight">
+   <property name="text">
+    <string>ImportPolLight</string>
+   </property>
+  </action>
+  <action name="actionCreatePotLight">
+   <property name="text">
+    <string>CreatePotLight</string>
+   </property>
+  </action>
+  <action name="actionPCSS">
+   <property name="text">
+    <string>PCSS</string>
+   </property>
+  </action>
+  <action name="actionPRT_ZH">
+   <property name="text">
+    <string>PRT_ZH</string>
+   </property>
+  </action>
+  <action name="actionFreeMode">
+   <property name="text">
+    <string>FreeMode</string>
+   </property>
+  </action>
+  <action name="actionCenterMode">
+   <property name="text">
+    <string>CenterMode</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="text">
+    <string>Save</string>
+   </property>
+  </action>
+  <action name="actionImport">
+   <property name="text">
+    <string>Import</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>glWidget</class>
+   <extends>QOpenGLWidget</extends>
+   <header location="global">glWidget.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="SimpleRender_x64.qrc"/>
+ </resources>
+ <connections/>
+</ui>
